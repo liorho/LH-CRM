@@ -20,6 +20,16 @@ class Clients extends Component {
         });
     }
 
+    createPageNumbers = () => {
+        const clients = this.filterClients()
+        const clientsPerPage = this.state.clientsPerPage
+        const pageNumbers = [];
+        for (let i = 1; i <= Math.ceil(clients.length / clientsPerPage); i++) {
+            pageNumbers.push(i);
+        }
+        return pageNumbers
+    }
+
     insertInput = (event) => {
         let input = event.target.value
         this.setState({ input: input, currentPage: 1 })
@@ -40,19 +50,8 @@ class Clients extends Component {
             case "Owner": return clients.filter(c => c.owner.toLowerCase().includes(input))
             case "Email": return input === "" ? clients.filter(c => c.emailType === null) : clients.filter(c => c.emailType ? c.emailType.toLowerCase().includes(input) : null)
             case "Sold": return clients.filter(c => c.sold ? ("yes").includes(input) : ("no").includes(input))
-            // case "Sold": return clients.filter(c => c.sold)
             default: return clients
         }
-    }
-
-    createPageNumbers = () => {
-        const clients = this.filterClients()
-        const clientsPerPage = this.state.clientsPerPage
-        const pageNumbers = [];
-        for (let i = 1; i <= Math.ceil(clients.length / clientsPerPage); i++) {
-            pageNumbers.push(i);
-        }
-        return pageNumbers
     }
 
     currentClients = () => {
@@ -71,6 +70,7 @@ class Clients extends Component {
 
         return (
             <div className="clients-component">
+                
                 <div className="search-clients">
                     <input type="text" value={this.state.input} onChange={this.insertInput} />
                     <select className="select-css" onChange={this.selectCategory}>

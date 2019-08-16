@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+
 import './App.css'
+
 import Clients from './components/Clients/Clients'
 import Actions from './components/Actions/Actions'
 import Analytics from './components/Analytics/Analytics'
-import Home from './Home/Home'
+import Home from './components/Home/Home'
+
 const axios = require('axios')
 const data = require('./data.json')
-
 
 class App extends Component {
   constructor() {
@@ -18,9 +20,13 @@ class App extends Component {
     }
   }
 
+  componentDidMount = async () => {
+    await this.getClients()
+  }
+
   addClient = async (client) => {
     await axios.post('http://localhost:3001/clients', client)
-
+    this.getClients()
   }
 
   getClients = async () => {
@@ -28,18 +34,25 @@ class App extends Component {
     this.setState({ clients: clients.data })
   }
 
-  componentDidMount = async () => {
-    await this.getClients()
+  updateClient = async (data) => {
+    await axios.put('http://localhost:3001/clients', data)
+    this.getClients()
   }
 
-  buttonSelected = selectedButton => ev => {
+  buttonSelected = selectedButton => (e) => {
     this.setState({ selectedButton })
   }
 
+  // Set data for Actions component
+  clientsActions = () => {
+    let clients = this.state.clients
+    let clientsActionsArr = []
+    clients.forEach(c => clientsActionsArr.push({id: c._id, name: c.name, owner: c.owner }))
+    return clientsActionsArr
+  }
 
   render() {
-
-    //get initial client-data
+    //initialize client-data for the first run:
     // data.forEach(client => this.addClient(client))
 
     return (
@@ -60,10 +73,9 @@ class App extends Component {
             </Link>
           </div>
 
-
           <Route exact path="/" component={Home} />
           <Route exact path="/clients" render={() => <Clients clients={this.state.clients} />} />
-          <Route exact path="/actions" component={Actions} />
+          <Route exact path="/actions" render={() => <Actions clients={this.clientsActions()} updateClient={this.updateClient} addClient={this.addClient} />} />
           <Route exact path="/analytics" component={Analytics} />
 
         </div>

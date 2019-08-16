@@ -12,13 +12,10 @@ app.use(function (req, res, next) {
 
     next()
 })
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use( '/', api )
-
-
-
-
 
 const port = 3001
 app.listen(port, function(){
