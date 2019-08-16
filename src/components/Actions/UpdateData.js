@@ -12,9 +12,8 @@ class UpdateData extends Component {
     }
 
     renderOwners = () => {
-        let clients = this.props.clients
         let ownerArr = []
-        clients.map(c => ownerArr.includes(c.owner) ? null : ownerArr.push(c.owner))
+        this.props.clients.map(c => ownerArr.includes(c.owner) ? null : ownerArr.push(c.owner))
         return (ownerArr)
     }
 
@@ -30,13 +29,13 @@ class UpdateData extends Component {
         let { updateClient, id } = this.props
         switch (value) {
             case "Transfer":
-                    updateClient({ key: "owner", value: owner })
-                    await this.setState({ owner: null })
-                    break;
+                updateClient({ key: "owner", value: owner })
+                await this.setState({ owner: null })
+                break;
             case "Send":
-                    updateClient({ key: "emailType", value: emailType })
-                    await this.setState({ emailType: null })
-                    break;
+                updateClient({ key: "emailType", value: emailType })
+                await this.setState({ emailType: null })
+                break;
             case "Sold":
                 if (id) {
                     await this.setState({ sold: sold ? false : true })
@@ -44,8 +43,10 @@ class UpdateData extends Component {
                     setTimeout(async () => { await this.setState({ sold: false }) }, 2000)
                     break;
                 } else updateClient({})
+            default: break
         }
     }
+
 
     render() {
         const { owner, emailType, sold } = this.state

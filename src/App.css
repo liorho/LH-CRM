@@ -20,27 +20,45 @@ input, button{
 /* ---------- App ------------  */
 
 .error-pop-up{  
-    clip-path: polygon(95% 0, 100% 50%, 95% 99%, 0% 100%, 5% 51%, 0% 0%);
     position: absolute;
-    top: 15%;
-    left: 30%;
-    height: 80px;
-    width: 600px;
+    left: 900px;
+    height: 15px;
+    width: 300px;
     background-color: rgb(71, 69, 69);
     color: #fbfae8;
-    animation: error-pop-up 7.5s;
+    animation: pop-up 3s;
     padding: 20px;
     text-align: center;
-    font-size: 38px;
+    font-size: 20px;
     font-weight: bold;
-    line-height: 80px;
+    line-height: 15px;
     animation-timing-function: ease;
+    border: 2px solid #fbfae8;
+    border-radius: 5px;
+}
+.success-pop-up{  
+    position: absolute;
+    left: 950px;
+    height: 15px;
+    width: 250px;
+    background-color: #fbfae8;
+    color: rgb(71, 69, 69);
+    animation: pop-up 3s;
+    padding: 20px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 15px;
+    animation-timing-function: ease;
+    border: 2px solid rgb(71, 69, 69);
+    border-radius: 5px;
 }
 
-@keyframes error-pop-up{
-    0% {left:-1000px;}
-    50% {left:350px;}
-    100% {left: 2000px;}
+@keyframes pop-up{
+    0% {top:700px;}
+    20% {top:450px;}
+    70% {top:450px;}
+    100% {top: 700px;}
 }
 
 .error-btn{
@@ -150,7 +168,7 @@ tr:nth-child(even) {
     0% {color: rgb(10, 7, 7);}
     50% {color: rgb(253, 243, 243);}
     100% {color: rgb(12, 10, 10);}
-  }
+}
     
   
 .clients-component{
@@ -265,6 +283,7 @@ select {
     height: 270px;
     box-shadow: 3px 3px grey;
     background-color: rgb(241, 241, 241);
+    border-radius: 5px;
 }
 
 .update-client{
@@ -303,4 +322,56 @@ select {
 .add-client-btn{
     float: right;
     margin: 20px;
+}
+
+/* ---------- Analytics ------------  */
+
+.analytics{
+    margin-top:50px;
+    display: grid;
+    grid-template-rows: 1fr 50fr
+}
+
+.badges{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 1%;
+    grid-gap: 1.5%;
+}
+
+.badge{
+    /* width: 25%;
+    height: 100%; */
+    display: grid;
+    grid-template-areas: "i n" "i t";
+    grid-template-columns: 1fr 3.5fr;
+    grid-gap: 1%;
+    /* margin: 1em; */
+}
+
+.badge-img{
+    grid-area: i;
+    height: 50px;
+    width: 50px;
+
+}
+
+.badge-val{
+    grid-area: n;
+    font-size: 2em;
+    font-weight: bold;
+    /* color: #555151; */
+
+}
+
+.badge-text{
+    grid-area: t;
+    font-weight: bold;
+    font-size: 0.5em;
+}
+
+
+.charts{
+    height: 80vh;
+    margin: 1em;
 }

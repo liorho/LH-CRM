@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Moment from 'react-moment';
 
 class Client extends Component {
     constructor(props) {
         super(props)
-
     }
 
     render() {

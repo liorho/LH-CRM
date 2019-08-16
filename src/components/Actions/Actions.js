@@ -13,7 +13,8 @@ class Actions extends Component {
         super()
         this.state = {
             id: null,
-            errorPopUp: false
+            errorPopUp: false,
+            successPopUp: false
         }
     }
 
@@ -33,15 +34,20 @@ class Actions extends Component {
         await this.setState({ id })
     }
 
+    handlePopUp = (type, val) => {
+        this.setState({ [type]: val });
+            setTimeout(() => { this.setState({ [type]: !val }) }, 3000)
+    }
+
     // Updating client details
     updateClient = async (value) => {
         let id = this.state.id
         let data = { id: id, key: value.key, value: value.value }
-        if (id && value.value !== "") {
+        if (id && value.value) {
             this.props.updateClient(data)
+            this.handlePopUp("successPopUp", true)
         } else {
-            this.setState({ errorPopUp: true });
-            setTimeout(() => { this.setState({ errorPopUp: false }) }, 7500)
+            this.handlePopUp("errorPopUp", true)
         }
     }
 
@@ -56,22 +62,22 @@ class Actions extends Component {
         }
         if (checkInput === 0) {
             this.props.addClient(client)
+            this.handlePopUp("successPopUp", true)
         } else {
-            this.setState({ errorPopUp: true });
-            setTimeout(() => { this.setState({ errorPopUp: false }) }, 7500)
+            this.handlePopUp("errorPopUp", true)
         }
     }
 
     render() {
         const { clients } = this.props
-        const { errorPopUp, id } = this.state
+        const { errorPopUp, successPopUp, id } = this.state
         return (
             <div className="actions-container">
                 <div className="update-container">
                     <div className="update-title">UPDATE</div>
                     <table>
                         <ClientInput clientsNames={this.clientsNames()} findClientId={this.findClientId} />
-                        <UpdateData clients={clients} updateClient={this.updateClient} id={id} />
+                        <UpdateData clients={clients} updateClient={this.updateClient} id={id}/>
                     </table>
                 </div>
 
@@ -83,6 +89,12 @@ class Actions extends Component {
                 {errorPopUp ?
                     <div className="error-pop-up">
                         <div>SOME DETAILS ARE MISSING</div>
+                    </div>
+                    : null}
+
+                {successPopUp ?
+                    <div className="success-pop-up">
+                        <div>UPDATE SUCCESSFUL</div>
                     </div>
                     : null}
 
