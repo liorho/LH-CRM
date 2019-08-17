@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Client from './Client'
+import DetailsPopUp from './DetailsPopUp'
+import SuccessPopUp from '../General/SuccessPopUp';
+import ErrorPopUp from '../General/ErrorPopUp'
 
 class Clients extends Component {
     constructor(props) {
@@ -9,11 +11,20 @@ class Clients extends Component {
             input: "",
             category: "Categories",
             currentPage: 1,
-            clientsPerPage: 13
+            clientsPerPage: 13,
+            detailsPopUp: {},
+            errorPopUp: false,
+            successPopUp: false
         }
     }
 
-    //Pagination
+    //--------Error/Sucess POP-UP -------
+    handlePopUp = (type, val) => {
+        this.setState({ [type]: val });
+        setTimeout(() => { this.setState({ [type]: !val }) }, 3000)
+    }
+
+    //------- Pagination ---------
     moveToPage = (event) => {
         this.setState({
             currentPage: Number(event.target.id)
@@ -30,11 +41,23 @@ class Clients extends Component {
         return pageNumbers
     }
 
+    currentClients = () => {
+        const { currentPage, clientsPerPage } = this.state
+        const indexOfLastClient = currentPage * clientsPerPage
+        const indexOfFirstClient = indexOfLastClient - clientsPerPage
+
+        const currentClients = this.filterClients().slice(indexOfFirstClient, indexOfLastClient)
+
+        return currentClients
+    }
+
+    //------- Buttons ------------
     insertInput = (event) => {
         let input = event.target.value
         this.setState({ input: input, currentPage: 1 })
     }
 
+    //------ Functions --------
     selectCategory = (event) => {
         let category = event.target.value
         this.setState({ category })
@@ -54,23 +77,47 @@ class Clients extends Component {
         }
     }
 
-    currentClients = () => {
-        const { currentPage, clientsPerPage } = this.state
-        const indexOfLastClient = currentPage * clientsPerPage
-        const indexOfFirstClient = indexOfLastClient - clientsPerPage
-
-        const currentClients = this.filterClients().slice(indexOfFirstClient, indexOfLastClient)
-
-        return currentClients
+    // ----------- Update/Delete Client Pop-Up -------
+    detailsPopUp = async (data) => {
+        await this.setState({
+            detailsPopUp: { clientDetails: data, popUpStatus: true }
+        })
     }
 
+    updateClientPopUp = async (data) => {
+        if (data.country !== "" && data.name !== "" && data.email !== "") {
+            await this.props.updateClientPopUp(data)
+            let detailsPopUp = this.state.detailsPopUp
+            detailsPopUp.popUpStatus = false
+            this.setState(detailsPopUp)
+            this.handlePopUp("successPopUp", true)
+        } else {
+            this.handlePopUp("errorPopUp", true)
+        }
+    }
 
+    deleteClient = async (id) => {
+        await this.props.deleteClient(id)
+        let detailsPopUp = this.state.detailsPopUp
+        detailsPopUp.popUpStatus = false
+        await this.setState(detailsPopUp)
+    }
+
+    cancelUpdate = async () => {
+        let detailsPopUp = this.state.detailsPopUp
+        detailsPopUp.popUpStatus = false
+        await this.setState(detailsPopUp)
+    }
+
+    // --------- Render --------
     render() {
         let pageNumbers = this.createPageNumbers()
+        let { detailsPopUp, errorPopUp, successPopUp} = this.state
+
 
         return (
             <div className="clients-component">
-                
+
                 <div className="search-clients">
                     <input type="text" value={this.state.input} onChange={this.insertInput} />
                     <select className="select-css" onChange={this.selectCategory}>
@@ -94,12 +141,20 @@ class Clients extends Component {
                         <th>First-Contact</th>
                         <th>Email-Type</th>
                     </tr>
-                    {this.currentClients().map(c => <Client client={c} />)}
+                    {this.currentClients().map(c => <Client client={c} detailsPopUp={this.detailsPopUp} />)}
                 </table>
+
 
                 <div class="page-numbers">
                     {pageNumbers.map(number => <div className="page-number" id={number} onClick={this.moveToPage} > {number}</div>)}
                 </div>
+
+                {/* POP-UP HANDLING */}
+                {detailsPopUp.popUpStatus ? <DetailsPopUp detailsPopUp={detailsPopUp.clientDetails} updateClientPopUp={this.updateClientPopUp} deleteClient={this.deleteClient} cancelUpdate={this.cancelUpdate} /> : null}
+
+                {errorPopUp ? < ErrorPopUp /> : null}
+
+                {successPopUp ? <SuccessPopUp /> : null}
             </div>
         )
     }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 class NewClient extends Component {
     constructor() {
@@ -11,7 +10,6 @@ class NewClient extends Component {
             owner: null,
             email: null,
         }
-
     }
 
     insertInput = (event) => {
@@ -33,6 +31,7 @@ class NewClient extends Component {
         })
     }
 
+    // --------- Render --------
     render() {
         return (
             <div>

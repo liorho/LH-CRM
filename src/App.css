@@ -190,6 +190,10 @@ tr:nth-child(even) {
     /* font-size: 1em; */
 }
 
+.search-clients:hover{
+    cursor: pointer;
+}
+
 .search-clients input,.search-clients select {
     border: 0.5px solid black;
     height: 30px;
@@ -241,6 +245,10 @@ select {
     display: none;
 }
 
+.select-css:hover{
+    cursor: pointer;
+}
+
 /* .select-css:focus {
     border-color: #aaa;
     box-shadow: 0 0 1px 3px rgba(2, 27, 54, 0.7);
@@ -263,6 +271,48 @@ select {
 .page-number{
     margin: 2px;
 }
+
+.details-pop-up-container{
+    position: absolute;
+    display:flex;
+    top: 0;
+    left: 0;
+    width: 1279px;
+    height: 540px;
+    background-color: rgba(138, 138, 138, 0.582);
+    justify-content: center;
+    justify-items: center;
+    
+}
+
+.details-pop-up{
+    height: 320px;
+    width: 320px;
+    background-color: #707070;
+    border-radius: 8px;
+    border: 5px groove rgb(41, 41, 41);
+    color:#fbfae8;
+    padding: 5px;
+    margin: 100px 0 ;
+}
+
+.update-pop-up-btn{
+    margin-left: 6px;
+}
+
+.details-pop-up input{
+    width:300px;
+    margin: 10px 5px;
+    transition: 1s all;
+}
+
+.update-client-popup-btn, .delete-client-popup-btn, .cancel-client-popup-btn{
+    border: 2px solid rgb(41, 41, 41);
+}
+
+
+
+
 
 /* ---------- Actions ------------  */
 

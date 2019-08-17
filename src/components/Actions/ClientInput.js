@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 class ClientInput extends Component {
     constructor() {
@@ -19,6 +18,7 @@ class ClientInput extends Component {
         this.insertInput(event)
     }
 
+    // --------- Render --------
     render() {
         let clientsNames = this.props.clientsNames
         return (

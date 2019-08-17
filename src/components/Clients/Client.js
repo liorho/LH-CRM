@@ -6,10 +6,16 @@ class Client extends Component {
         super(props)
     }
 
+    detailsPopUp = async () => {
+        let client = {...this.props.client}
+        await this.props.detailsPopUp(client)
+    }
+
+    // --------- Render --------
     render() {
         let client = this.props.client
         return (
-            <tr className="clientDetails">
+            <tr className="clientDetails" onClick={this.detailsPopUp}>
                 <th>{client.name.split(' ')[0]}</th>
                 <th>{client.name.split(' ')[1]}</th>
                 <th>{client.country}</th>

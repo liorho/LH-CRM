@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 class SalesByParamsChart extends Component {
     constructor() {
         super()
-
     }
 
     render() {
         let data = this.props.data
+
         return (
             <ResponsiveContainer width="100%" height="100%">
                 <BarChart

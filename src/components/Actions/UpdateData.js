@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 class UpdateData extends Component {
     constructor() {
@@ -11,18 +10,21 @@ class UpdateData extends Component {
         }
     }
 
+    // ---------- Supporting Function -------
     renderOwners = () => {
         let ownerArr = []
         this.props.clients.map(c => ownerArr.includes(c.owner) ? null : ownerArr.push(c.owner))
         return (ownerArr)
     }
 
+    // ------------ INPUT -------------
     changeInput = async (event) => {
         let key = event.target.list.id
         let value = event.target.value
         await this.setState({ [key]: value })
     }
-
+    
+    // -------- Main Function -------
     updateClient = async (event) => {
         let value = event.target.value
         const { owner, emailType, sold } = this.state
@@ -47,10 +49,11 @@ class UpdateData extends Component {
         }
     }
 
-
+    // --------- Render --------
     render() {
         const { owner, emailType, sold } = this.state
         const emailTypeArr = ["A", "B", "C", "D"]
+
         return (
             <table className="update-client">
 

@@ -21,4 +21,18 @@ router.put('/clients', function (req, res) {
     })
 })
 
+router.put('/clientsPopUp', function (req, res) {
+    let data = req.body
+    Client.findByIdAndUpdate(data._id, { name: data.name, email: data.email, country: data.country }, function (err, data) {
+        res.send(data)
+    })
+})
+
+router.delete('/clients/:id', function (req, res) {
+    let id = req.params.id
+    Client.findByIdAndDelete({_id:id}, function (err, data) {
+        res.send(data)
+    })
+})
+
 module.exports = router

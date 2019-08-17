@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import UpdateData from './UpdateData'
 import ClientInput from './ClientInput'
 import NewClient from './NewClient'
-import Axios from 'axios';
-import Popup from "reactjs-popup";
-
-
+import ErrorPopUp from '../General/ErrorPopUp'
+import SuccessPopUp from '../General/SuccessPopUp'
 
 class Actions extends Component {
     constructor() {
@@ -18,7 +15,8 @@ class Actions extends Component {
         }
     }
 
-    // Create Array of Clients names
+    //----------- Supporting Functions -------
+    // Create Array of Clients names for drop-down menu
     clientsNames = () => {
         let clients = this.props.clients
         let clientsNames = []
@@ -26,7 +24,7 @@ class Actions extends Component {
         return clientsNames
     }
 
-    // setting chosen Client id by his name
+    // find Client id by his name
     findClientId = async (name) => {
         let clients = this.props.clients
         let chosenClient = clients.find(c => c.name === name)
@@ -34,12 +32,13 @@ class Actions extends Component {
         await this.setState({ id })
     }
 
-    handlePopUp = (type, val) => {
+    // ----- POP-UP ----------
+    handlePopUp = async (type, val) => {
         this.setState({ [type]: val });
-            setTimeout(() => { this.setState({ [type]: !val }) }, 3000)
+        setTimeout( async () => {await this.setState({ [type]: !val }) }, 3000)
     }
 
-    // Updating client details
+    //------- Functions -----------
     updateClient = async (value) => {
         let id = this.state.id
         let data = { id: id, key: value.key, value: value.value }
@@ -51,23 +50,21 @@ class Actions extends Component {
         }
     }
 
-    // Add new Client
-    addClient = (client) => {
+    addClient = async (client) => {
         let keys = Object.keys(client)
-        console.log(keys)
         let checkInput = 0
         for (let key of keys) {
             checkInput = client[key] || key === "sold" || key === "emailType" ? checkInput : checkInput + 1
-            console.log(client[key])
         }
         if (checkInput === 0) {
-            this.props.addClient(client)
-            this.handlePopUp("successPopUp", true)
+            await this.props.addClient(client)
+            await this.handlePopUp("successPopUp", true)
         } else {
-            this.handlePopUp("errorPopUp", true)
+            await this.handlePopUp("errorPopUp", true)
         }
     }
 
+    // --------- Render --------
     render() {
         const { clients } = this.props
         const { errorPopUp, successPopUp, id } = this.state
@@ -77,7 +74,7 @@ class Actions extends Component {
                     <div className="update-title">UPDATE</div>
                     <table>
                         <ClientInput clientsNames={this.clientsNames()} findClientId={this.findClientId} />
-                        <UpdateData clients={clients} updateClient={this.updateClient} id={id}/>
+                        <UpdateData clients={clients} updateClient={this.updateClient} id={id} />
                     </table>
                 </div>
 
@@ -86,17 +83,9 @@ class Actions extends Component {
                     <NewClient addClient={this.addClient} />
                 </div>
 
-                {errorPopUp ?
-                    <div className="error-pop-up">
-                        <div>SOME DETAILS ARE MISSING</div>
-                    </div>
-                    : null}
+                {errorPopUp ? < ErrorPopUp /> : null}
 
-                {successPopUp ?
-                    <div className="success-pop-up">
-                        <div>UPDATE SUCCESSFUL</div>
-                    </div>
-                    : null}
+                {successPopUp ? <SuccessPopUp /> : null}
 
             </div>
         )

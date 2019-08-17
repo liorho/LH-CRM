@@ -39,16 +39,27 @@ class App extends Component {
     this.getClients()
   }
 
-  buttonSelected = selectedButton => (e) => {
-    this.setState({ selectedButton })
+  updateClientPopUp = async (data) => {
+    await axios.put(`http://localhost:3001/clientsPopUp`, data)
+    this.getClients()
+  }
+
+  deleteClient = async (id) => {
+    await axios.delete(`http://localhost:3001/clients/${id}`)
+    this.getClients()
   }
 
   // Set data for Actions component
   clientsActions = () => {
     let clients = this.state.clients
     let clientsActionsArr = []
-    clients.forEach(c => clientsActionsArr.push({id: c._id, name: c.name, owner: c.owner }))
+    clients.forEach(c => clientsActionsArr.push({ id: c._id, name: c.name, owner: c.owner }))
     return clientsActionsArr
+  }
+  
+  // ----- Button ------
+  buttonSelected = selectedButton => (e) => {
+    this.setState({ selectedButton })
   }
 
   render() {
@@ -74,7 +85,7 @@ class App extends Component {
           </div>
 
           <Route exact path="/" component={Home} />
-          <Route exact path="/clients" render={() => <Clients clients={this.state.clients} />} />
+          <Route exact path="/clients" render={() => <Clients clients={this.state.clients} updateClientPopUp={this.updateClientPopUp} deleteClient={this.deleteClient} />} />
           <Route exact path="/actions" render={() => <Actions clients={this.clientsActions()} updateClient={this.updateClient} addClient={this.addClient} />} />
           <Route exact path="/analytics" component={Analytics} />
 

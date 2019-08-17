@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Moment from 'react-moment';
 
 import Badge from './Badge'
 import TopEmployeesChart from './TopEmployeesChart'
