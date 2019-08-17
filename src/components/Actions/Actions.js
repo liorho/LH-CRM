@@ -83,6 +83,8 @@ class Actions extends Component {
                     <NewClient addClient={this.addClient} />
                 </div>
 
+                <div className="LH1">LH</div>
+
                 {errorPopUp ? < ErrorPopUp /> : null}
 
                 {successPopUp ? <SuccessPopUp /> : null}

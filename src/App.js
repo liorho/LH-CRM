@@ -9,6 +9,8 @@ import Analytics from './components/Analytics/Analytics'
 import Home from './components/Home/Home'
 
 const axios = require('axios')
+
+// Load First Data
 const data = require('./data.json')
 
 class App extends Component {
@@ -68,19 +70,19 @@ class App extends Component {
 
     return (
       <Router>
-        <div >
+        <div className="app-container" >
           <div className="navbar">
-            <Link to="/clients">
-              <input type="button" value="Clients" className={this.state.selectedButton === "Clients" ? 'nav-btn selected' : 'nav-btn'} onClick={this.buttonSelected("Clients")} />
-            </Link>
-            <Link to="/actions">
-              <input type="button" value="Actions" className={this.state.selectedButton === "Actions" ? 'nav-btn selected' : 'nav-btn'} onClick={this.buttonSelected("Actions")} />
-            </Link>
-            <Link to="/analytics">
-              <input type="button" value="Analytics" className={this.state.selectedButton === "Analytics" ? 'nav-btn selected' : 'nav-btn'} onClick={this.buttonSelected("Analytics")} />
-            </Link>
             <Link to="/">
               <input type="button" value="Home" className={this.state.selectedButton === "Home" ? 'nav-btn selected home-btn' : 'nav-btn home-btn'} onClick={this.buttonSelected("Home")} />
+            </Link>
+            <Link to="/analytics">
+              <input type="button" value="Analytics" className={this.state.selectedButton === "Analytics" ? 'selected' : 'nav-btn'} onClick={this.buttonSelected("Analytics")} />
+            </Link>
+            <Link to="/actions">
+              <input type="button" value="Actions" className={this.state.selectedButton === "Actions" ? 'selected' : 'nav-btn'} onClick={this.buttonSelected("Actions")} />
+            </Link>
+            <Link to="/clients">
+              <input type="button" value="Clients" className={this.state.selectedButton === "Clients" ? 'selected' : 'nav-btn'} onClick={this.buttonSelected("Clients")} />
             </Link>
           </div>
 

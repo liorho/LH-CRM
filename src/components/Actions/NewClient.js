@@ -40,7 +40,7 @@ class NewClient extends Component {
                         <th>First name: </th>
                         <th><input type="text" id="firstName" value={this.state.firstName} onChange={this.insertInput} /></th>
                     </tr>
-                    <tr>
+                    <tr className="last-name">
                         <th>Last name: </th>
                         <th><input type="text" id="lastName" value={this.state.lastName} onChange={this.insertInput} /></th>
                     </tr>
@@ -48,7 +48,7 @@ class NewClient extends Component {
                         <th>Country: </th>
                         <th><input type="text" id="country" value={this.state.country} onChange={this.insertInput} /></th>
                     </tr>
-                    <tr>
+                    <tr className="owner">
                         <th>Owner: </th>
                         <th><input type="text" id="owner" value={this.state.owner} onChange={this.insertInput} /></th>
                     </tr>

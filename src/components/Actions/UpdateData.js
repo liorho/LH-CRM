@@ -88,6 +88,7 @@ class UpdateData extends Component {
                     <th>
                         {sold ? null : <input type="button" value="Sold" onClick={this.updateClient} />}
                     </th>
+                    <th></th>
                 </tr>
             </table>
         )
