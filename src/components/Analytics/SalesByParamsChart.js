@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 
 class SalesByParamsChart extends Component {
     constructor() {
@@ -7,11 +8,22 @@ class SalesByParamsChart extends Component {
     }
 
     render() {
-        console.log(this.props.data)
+        let data = this.props.data
         return (
-            <div>
-
-            </div>
+            <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                    data={data}
+                    margin={{
+                        top: 15, right: 20, left: 15, bottom: 5,
+                    }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="val" tick={{ fill: 'black', fontSize: "10px" }} interval={0}/>
+                    <YAxis tick={{ fill: 'black', fontSize: "20px" }}  />
+                    <Tooltip />
+                    <Bar dataKey="sales" fill="#555151" />
+                </BarChart>
+             </ResponsiveContainer>
         )
     }
 }

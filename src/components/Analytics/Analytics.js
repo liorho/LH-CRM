@@ -4,6 +4,8 @@ import Moment from 'react-moment';
 import Badge from './Badge'
 import TopEmployeesChart from './TopEmployeesChart'
 import SalesByParamsChart from './SalesByParamsChart'
+import SalesSinceChart from './SalesSinceChart'
+import EmployeesSalesByCountryChart from './EmployeesSalesByCountryChart'
 
 const axios = require('axios')
 const moment = require('moment')
@@ -22,10 +24,17 @@ class Analytics extends Component {
             topEmployees: [],
             salesByParams: [],
             params: ["Country", "Email Type", "Employee", "Month (All Time)"],
-            chosenParam: ""
+            input: "",
+            chosenParam: "Country",
+            startDate: "",
+            last30DaysOfSaleArr: [],
+            countriesArr: [],
+            chosenCountry: "", 
+            employeesSalesByCountry: []
         }
     }
 
+    //---------- Start ------------------
     componentDidMount = async () => {
         await this.getClients()
     }
@@ -43,9 +52,16 @@ class Analytics extends Component {
         await this.findHottestCountry()
         await this.findTopEmployees()
         await this.salesByParamsCharts("Country")
+        await this.salesSinceCharts(30)
+        if (this.state.chosenCountry=="") {
+            await this.employeesSalesByCountryCharts(this.renderCountries()[0])
+        } else {
+            await this.employeesSalesByCountryCharts(this.state.chosenCountry)
+
+        }
     }
 
-    //Supporting algorythm
+    //------ Supporting algorythm  ----------
     salesByParamCalc = (param) => {
         // subArr - support array with values by parameter. each value appear as the number of the sales
         // mainArr - array of objects, each object contain value (depend on the parameter) and amount of sales
@@ -69,10 +85,48 @@ class Analytics extends Component {
             return a.val > b.val ? 1 : -1
         })
 
+        if (param=="emailType") mainArr.splice(0,1)
+
         return (mainArr)
     }
 
-    // Calculate the number of new clients in the current month
+    salesByMonthsCalc = (param) => {
+        // subArr - support array with values by parameter. each value appear as the number of the sales
+        // mainArr - array of objects, each object contain value (depend on the parameter) and amount of sales
+        let subArr = []
+        this.state.clients.forEach(c => { if (c.sold) { subArr.push(c.firstContact) } })
+        for (let i = 0; i < subArr.length; i++) {
+            let date = moment(subArr[i], 'YYYY/MM/DD')
+            subArr[i] = date.format('M')
+        }
+        subArr.sort()
+        let mainArr = []
+        let count = 1
+        for (let i = 1; i < subArr.length; i++) {
+            if (subArr[i] == subArr[i - 1]) {
+                count++
+            } else {
+                mainArr.push({ val: subArr[i - 1], sales: count })
+                count = 1
+            }
+        }
+        // for last value:
+        mainArr.push({ val: subArr[subArr.length - 1], sales: count })
+
+        mainArr.sort((a, b) => {
+            return a.val > b.val ? 1 : -1
+        })
+
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        mainArr.forEach(m => m.val = months[parseInt(m.val) - 1])
+        for (let i = 0; i < 3; i++) {
+            mainArr[12] = mainArr[1]
+            mainArr.splice(1, 1)
+        }
+        return (mainArr)
+    }
+
+    //---------- Badges ---------------------
     numOfNewClientsCalc = async () => {
         let firstContactArr = []
         this.state.clients.forEach(c => firstContactArr.push(c.firstContact))
@@ -91,7 +145,7 @@ class Analytics extends Component {
         badges[0].text = 'New ' + thisMonth + ' Clients'
         await this.setState({ badges })
     }
-    // Calculate the total number of sent emails
+
     numOfEmailSentCalc = async () => {
         let count = 0;
         this.state.clients.forEach(c => { if (c.emailType) count++ })
@@ -100,7 +154,6 @@ class Analytics extends Component {
         await this.setState({ badges })
     }
 
-    // Calculate te number of Clients which have not yet sold
     numOfOutstandingClientsCalc = async () => {
         let count = 0
         this.state.clients.forEach(c => { if (!c.sold) count++ })
@@ -109,7 +162,6 @@ class Analytics extends Component {
         await this.setState({ badges })
     }
 
-    // Find the country with most sales
     findHottestCountry = async () => {
         let countriesArr = []
         this.state.clients.forEach(c => { if (c.sold) { countriesArr.push(c.country) } })
@@ -139,7 +191,7 @@ class Analytics extends Component {
         await this.setState({ badges })
     }
 
-    // Find Employee with most sales
+    //---------- Charts ---------------------
     findTopEmployees = async () => {
         let topEmployeesArr = this.salesByParamCalc("owner")
 
@@ -151,62 +203,180 @@ class Analytics extends Component {
         // keeping 3 top employees
         topEmployeesArr.splice(3)
 
-        await this.setState({topEmployees: topEmployeesArr})
-        console.log("hottest employees:", this.state.topEmployees)
+        await this.setState({ topEmployees: topEmployeesArr })
     }
-    
+
     salesByParamsCharts = async (param) => {
 
         switch (param) {
-            case "Country": param="country"
-            break
-            case "Email Type": param="emailType"
-            break
-            case "Employee": param="owner"
-            break
-            case "Month (All Time)": param="byMonth"
-            break
+            case "Country": param = "country"
+                break
+            case "Email Type": param = "emailType"
+                break
+            case "Employee": param = "owner"
+                break
+            case "Month (All Time)": param = "firstContact"
+                break
             default: break
         }
-
-        console.log(param)
         let salesByParams = []
-        if (param!=="byMonth"){
-        salesByParams = this.salesByParamCalc(param)
+        if (param === "country" || param === "emailType" || param === "owner") {
+            salesByParams = this.salesByParamCalc(param)
         }
-        await this.setState({salesByParams})
-        
-        console.log("sales by params array:", this.state.salesByParams)
+        if (param === "firstContact") {
+            salesByParams = this.salesByMonthsCalc()
+        }
+        await this.setState({ salesByParams })
+
     }
 
-    changeInput = async (event) => {
-        let value = event.target.value
-        this.salesByParamsCharts(value)
-        console.log(value)
-        await this.setState({ chosenParam: value })
+    salesSinceCharts = async (param) => {
+        let startDate = moment().subtract(param, 'days')
+        let subSalesByDaysArr = []
+        this.state.clients.forEach(c => {
+            if (startDate.isBefore(c.firstContact) && c.sold) subSalesByDaysArr.push(c.firstContact)
+        })
+        subSalesByDaysArr.sort()
+
+        let salesByDaysArr = []
+        let count = 1
+        for (let i = 1; i < subSalesByDaysArr.length; i++) {
+            if (moment(subSalesByDaysArr[i], 'YYYY/MM/DD').format('D') == moment(subSalesByDaysArr[i - 1], 'YYYY/MM/DD').format('D')) {
+                count++
+            } else {
+                salesByDaysArr.push({ val: subSalesByDaysArr[i - 1], sales: count })
+                count = 1
+            }
+        }
+        // for last value:
+        salesByDaysArr.push({ val: subSalesByDaysArr[subSalesByDaysArr.length - 1], sales: count })
+
+        salesByDaysArr.sort((a, b) => {
+            return a.val > b.val ? 1 : -1
+        })
+
+        salesByDaysArr.forEach(s => s.val = moment(s.val, 'YYYY/MM/DD').format('MMM D'))
+
+        let listOfLast30Days = []
+
+        for (let i = param; i > -1; i--) {
+            listOfLast30Days.push(moment(moment().subtract(i, 'days'), 'YYY/MM/DD').format('MMM D'))
+        }
+
+        let last30DaysOfSaleArr = []
+
+        for (let i = 0; i < listOfLast30Days.length; i++) {
+            let count = 0
+            for (let j = 0; j < salesByDaysArr.length; j++) {
+                if (listOfLast30Days[i] == salesByDaysArr[j].val) {
+                    last30DaysOfSaleArr.push(salesByDaysArr[j])
+                    count++
+                }
+            }
+            if (count == 0) {
+                last30DaysOfSaleArr.push({ val: listOfLast30Days[i], sales: 0 })
+            }
+        }
+
+        startDate = "Sales Since " + startDate.format('DD/MM/YYYY')
+        await this.setState({ startDate, last30DaysOfSaleArr })
     }
 
+    employeesSalesByCountryCharts = async (country) => {
+        console.log(country)
+        // subArr - support array with values by parameter. each value appear as the number of the sales
+        // mainArr - array of objects, each object contain value (depend on the parameter) and amount of sales
+        let subArr = []
+        this.state.clients.forEach(c => { if (c.sold && c.country==country) { subArr.push(c.owner) } })
+        subArr.sort()
+        let mainArr = []
+        let count = 1
+        for (let i = 1; i < subArr.length; i++) {
+            if (subArr[i] == subArr[i - 1]) {
+                count++
+            } else {
+                mainArr.push({ val: subArr[i - 1], sales: count })
+                count = 1
+            }
+        }
+        // for last value:
+        mainArr.push({ val: subArr[subArr.length - 1], sales: count })
+
+        mainArr.sort((a, b) => {
+            return a.val > b.val ? 1 : -1
+        })
+        this.setState({employeesSalesByCountry: mainArr})
+    }
+
+    //---------- Buttons ---------------------
+    insertInput = async (event) => {
+        let input = event.target.value
+        this.setState({ input: input })
+    }
+
+    selectParam = async (event) => {
+        let chosenParam = event.target.value
+        await this.setState({ chosenParam })
+        await this.salesByParamsCharts(chosenParam)
+    }
+
+    selectCountry = async (event) => {
+        let chosenCountry = event.target.value
+        await this.setState({ chosenCountry })
+        await this.employeesSalesByCountryCharts(chosenCountry)
+    }
+
+    renderCountries = () => {
+        let countriesArr = []
+        this.state.clients.map(c => countriesArr.includes(c.country) ? null : countriesArr.push(c.country))
+        countriesArr.sort()
+        return (countriesArr)
+    }
+
+
+    // --------- Render --------
     render() {
-        const { badges, topEmployees, params, chosenParam, salesByParams } = this.state
+        const { badges, topEmployees, params, salesByParams, startDate, last30DaysOfSaleArr, employeesSalesByCountry } = this.state
         return (
             <div className="analytics">
+
                 <div className="badges">
                     {badges.map(b => <Badge badge={b} />)}
                 </div>
 
-                <div className="charts">
-                    <div>Top Employees</div>
-                    <TopEmployeesChart data={topEmployees} />
-                    <span>
-                    <input list="sales-by-params" value={chosenParam} onChange={this.changeInput} />
-                        <datalist id="sales-by-params" >
-                            {params.map(p => <option>{p}</option>)}
-                        </datalist>
-                        </span>
-                    <SalesByParamsChart data={salesByParams} />
 
-                </div>
-            </div>
+                <div className="charts">
+
+                    <div className="top-employee-chart">
+                        <div>Top Employees</div>
+                        <TopEmployeesChart data={topEmployees} />
+                    </div >
+
+                    <div className="sales-by-param-chart">
+                        <span>Sales By: </span>
+                        <select className="select-css" onChange={this.selectParam}>
+                            {params.map(p => <option value={p}>{p}</option>)}
+                        </select>
+                        <SalesByParamsChart data={salesByParams} />
+                    </div>
+
+                    <div className="sales-since-chart">
+                        <div>{startDate}</div>
+                        <SalesSinceChart data={last30DaysOfSaleArr} />
+                    </div >
+
+                    <div className="employees-sales-by-country-chart">
+                        <div className="employees-sales-by-country-input">
+                            <span className="employees-sale-title">Employees Sales in: </span>
+                            <select className="select-css" onChange={this.selectCountry}>
+                                {this.renderCountries().map(o => <option>{o}</option>)}
+                            </select>
+                        </div>
+                        <EmployeesSalesByCountryChart data={employeesSalesByCountry} />
+                    </div >
+
+                </div >
+            </div >
         )
     }
 }

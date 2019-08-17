@@ -67,7 +67,7 @@ input, button{
 }
 
 .selected{
-    background-color: rgb(0, 0, 0);
+    background-color: #555151;
     color: #fbfae8;
 }
 
@@ -187,6 +187,7 @@ tr:nth-child(even) {
     position: fixed;
     top:0;
     left: 480px;
+    /* font-size: 1em; */
 }
 
 .search-clients input,.search-clients select {
@@ -194,7 +195,7 @@ tr:nth-child(even) {
     height: 30px;
     padding: 0 7px;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .search-clients input{
@@ -203,6 +204,7 @@ tr:nth-child(even) {
 
 .search-clients select {
     margin-left: 10px;
+    width: 115px;
 }
 
 select {
@@ -227,11 +229,13 @@ select {
     -webkit-appearance: none;
     appearance: none;
     background-color: #fff;
+    background-image: url('https://banner2.kisspng.com/20180409/zae/kisspng-arrow-down-pixel-arrow-android-down-arrow-5acaf12b08a660.2017835515232494510354.jpg');
     /* background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
       linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%); */
       background-repeat: no-repeat, repeat;
     background-position: right .7em top 50%, 0 0;
     background-size: .65em auto, 100%;
+    padding: 0 7px
 }
 .select-css::-ms-expand {
     display: none;
@@ -327,16 +331,19 @@ select {
 /* ---------- Analytics ------------  */
 
 .analytics{
-    margin-top:50px;
+    margin-top:30px;
     display: grid;
-    grid-template-rows: 1fr 50fr
+    grid-template-rows: 1fr 4.5fr;
+    /* grid-gap: 1em; */
 }
 
 .badges{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     margin: 1%;
-    grid-gap: 1.5%;
+    /* grid-gap: 1.5%; */
+    border-block-end: 1px solid black;
+    /* justify-content: center; */
 }
 
 .badge{
@@ -346,7 +353,7 @@ select {
     grid-template-areas: "i n" "i t";
     grid-template-columns: 1fr 3.5fr;
     grid-gap: 1%;
-    /* margin: 1em; */
+    margin: 0.5em;
 }
 
 .badge-img{
@@ -360,7 +367,14 @@ select {
     grid-area: n;
     font-size: 2em;
     font-weight: bold;
-    /* color: #555151; */
+     color: #555151;
+    /*color: #524f4f;
+    color: #464444; 
+    color: #3d3c3c; 
+    color: #2b2a2a; 
+    color: #272626; 
+    color: #222121; 
+    color: #181717;  */
 
 }
 
@@ -372,6 +386,40 @@ select {
 
 
 .charts{
-    height: 80vh;
-    margin: 1em;
+    height: 65vh;
+    margin: 0 1em;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /* padding:0.5em; */
+}
+
+.top-employee-chart{
+    width: 300px;
+    height: 45%;
+    margin-bottom: 1.5em;
+}
+.sales-by-param-chart{
+    width: 900px;
+    height: 45%;
+    margin-bottom: 1.5em;
+}
+
+.sales-since-chart{
+    width: 700px;
+    height: 55%;
+}
+
+.employees-sales-by-country-chart{
+    width: 500px;
+    height: 58%;
+    font-size:10px;
+}
+
+.employees-sale-title{
+    font-size: 1.5em;
+}
+
+.employees-sales-by-country-input{
+    margin-bottom: 1em;
 }
