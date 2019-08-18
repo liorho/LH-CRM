@@ -12,6 +12,7 @@ class NewClient extends Component {
         }
     }
 
+
     insertInput = (event) => {
         let input = event.target.value
         let key = event.target.id

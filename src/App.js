@@ -21,12 +21,25 @@ class App extends Component {
       selectedButton: null,
     }
   }
-
+  // --------- Start ---------
   componentDidMount = async () => {
     await this.getClients()
   }
 
+  // --- Upper Case Function -----
+  upperCase = (input) => {
+    let inputArr = input.split(" ")
+    inputArr = inputArr.map(i => i.charAt(0).toUpperCase() + i.slice(1))
+    input = inputArr.join(" ")
+    return input
+  }
+
+    // ---------- Main Functions -------
   addClient = async (client) => {
+    console.log(client)
+    client.country = this.upperCase(client.country)
+    client.name = this.upperCase(client.name)
+    client.owner = this.upperCase(client.owner)
     await axios.post('http://localhost:3001/clients', client)
     this.getClients()
   }
@@ -37,11 +50,15 @@ class App extends Component {
   }
 
   updateClient = async (data) => {
+    data.value = data.key === "owner" || data.key === "emailType" ? this.upperCase(data.value) : data.value
+    console.log(data)
     await axios.put('http://localhost:3001/clients', data)
     this.getClients()
   }
 
   updateClientPopUp = async (data) => {
+    data.country = this.upperCase(data.country)
+    data.name = this.upperCase(data.name)
     await axios.put(`http://localhost:3001/clientsPopUp`, data)
     this.getClients()
   }
@@ -50,20 +67,21 @@ class App extends Component {
     await axios.delete(`http://localhost:3001/clients/${id}`)
     this.getClients()
   }
-
-  // Set data for Actions component
+  // -------------------------------------
+  // Arrange data for Actions component
   clientsActions = () => {
     let clients = this.state.clients
     let clientsActionsArr = []
     clients.forEach(c => clientsActionsArr.push({ id: c._id, name: c.name, owner: c.owner }))
     return clientsActionsArr
   }
-  
+
   // ----- Button ------
   buttonSelected = selectedButton => (e) => {
     this.setState({ selectedButton })
   }
 
+  // --------- Render --------
   render() {
     //initialize client-data for the first run:
     // data.forEach(client => this.addClient(client))
