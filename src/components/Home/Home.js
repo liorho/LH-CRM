@@ -22,7 +22,7 @@ class Home extends Component {
                 <div className="home"><span className="LH">LH</span>
                 {/* <span className="CRM">'s  b&w CRM</span> */}
                 </div>
-                <div className="sit-back">Sit back. Relax. Let LH's b&w CRM do all the hard work for you.</div>
+                <div className="sit-back">Sit back. Relax. Let LH's CRM do all the hard work for you.</div>
             </div>
         )
     }

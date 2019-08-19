@@ -24,7 +24,7 @@ class TopEmployeesChart extends Component {
                     </XAxis>
                     <YAxis type={'category'} dataKey="val" tick={{ fill: 'black', fontSize: "10px" }} />
                     <Tooltip />
-                    <Bar dataKey="sales" fill="#555151" width={10} />
+                    <Bar dataKey="sales" fill="#104418f6" width={10} />
                 </BarChart>
             </ResponsiveContainer> 
         )

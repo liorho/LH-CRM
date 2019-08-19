@@ -20,7 +20,7 @@ class SalesSinceChart extends Component {
                     <XAxis dataKey="val" tick={{ fill: 'black', fontSize: "10px" }} />
                     <YAxis tick={{ fill: 'black', fontSize: "10px" }}  />
                     <Tooltip />
-                    <Line type="monotone" dataKey="sales" stroke="#555151" activeDot={{ r: 8 }} dot={false}/>
+                    <Line type="monotone" dataKey="sales" stroke="#104418f6" activeDot={{ r: 8 }} dot={false}/>
                 </LineChart>
              </ResponsiveContainer>
         )

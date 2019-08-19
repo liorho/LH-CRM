@@ -91,7 +91,7 @@ class App extends Component {
         <div className="app-container" >
           <div className="navbar">
             <Link to="/">
-              <input type="button" value="Home" className={this.state.selectedButton === "Home" ? 'nav-btn selected home-btn' : 'nav-btn home-btn'} onClick={this.buttonSelected("Home")} />
+              <input type="button" value="Home" className={this.state.selectedButton === "Home" ? 'selected home-btn' : 'nav-btn home-btn'} onClick={this.buttonSelected("Home")} />
             </Link>
             <Link to="/analytics">
               <input type="button" value="Analytics" className={this.state.selectedButton === "Analytics" ? 'selected' : 'nav-btn'} onClick={this.buttonSelected("Analytics")} />

@@ -10,8 +10,7 @@ class EmployeesSalesByCountryChart extends Component {
             return (entry.val + ": " + entry.sales)
         }
 
-        let color = ["#555151", "#524f4f", "#464444", "#3d3c3c", "#2b2a2a", "#272626", "#222121", "#181717"]
-
+        let color = ["#104418f6", "#0e2512f6", "#1b331ff6;", "#37663ff6;", "#086418f6", "#078f1ef6", "#09721af6"]
         return (
             <ResponsiveContainer width="100%" height="100%">
                 <PieChart>

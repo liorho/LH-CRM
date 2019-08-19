@@ -147,7 +147,7 @@ class Clients extends Component {
 
                 <table>
                     <tr className="table-header">
-                        {titles.map(t => <th>{t}</th>)}
+                        {titles.map(t => <th className="table-header-th">{t}</th>)}
                     </tr>
                     {this.currentClients().map(c => <Client client={c} detailsPopUp={this.detailsPopUp} />)}
                 </table>
