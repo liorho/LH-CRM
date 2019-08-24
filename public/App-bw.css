@@ -5,11 +5,11 @@ button:focus {outline:0;}
 body{
     margin: 0;
     position: relative;
-    /* background-image: URL(https://www.telegraph.co.uk/content/dam/film/irrationalman/Manhattan-xlarge.jpg); */
-    background-image: URL(https://tammytourguide.files.wordpress.com/2015/07/p6300073.jpg);
+    background-image: URL('./img/icon-bw.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
 }
 
 *{
@@ -23,6 +23,23 @@ input, button{
 }
 
 /* ---------- App ------------  */
+.load-css{
+    display: none;
+}
+.color-btn{
+    position: absolute;
+    top: 507px;
+    left: 1200px;
+    font-size: 25px;
+    font-family: 'Oswald', sans-serif;
+    color:rgb(231, 228, 228);
+    text-shadow: 1px 1px rgb(47, 47, 47);
+    z-index: 2;
+}
+
+.color-btn:hover{
+    cursor: pointer;
+}
 
 .error-pop-up{  
     position: absolute;
@@ -61,8 +78,8 @@ input, button{
 
 @keyframes pop-up{
     0% {top:700px;}
-    20% {top:450px;}
-    70% {top:450px;}
+    15% {top:450px;}
+    85% {top:450px;}
     100% {top: 700px;}
 }
 
@@ -77,8 +94,7 @@ input, button{
     font-weight: bold;
     font-size: 19px;
     float: right;
-    background-color: #042008f6;
-    /* background-color: rgb(24, 22, 22); */
+    background-color: rgb(24, 22, 22);
     color:rgb(221, 218, 218);
 }
 
@@ -98,8 +114,7 @@ input, button{
     font-weight: bold;
     font-size: 19px;
     float: right;
-    background-color: #2e7a3a6b;
-    /* background-color: #55515177; */
+    background-color: #55515177;
     color: #fffff8;
 }
 
@@ -120,7 +135,6 @@ input, button{
     font-size: 25px;
     font-family: 'Oswald', sans-serif;
     color:rgb(231, 228, 228);
-    text-shadow: 1px 1px rgb(47, 47, 47);
 }
 
 /* ---------- Home ------------  */
@@ -146,18 +160,16 @@ input, button{
 .LH{
     font-size: 40px;
     font-family: 'Oswald', sans-serif;
-    text-shadow: 2px 2px rgb(47, 47, 47);
 }
 
 .sit-back{
     position: absolute;
-    top: 200px;
-    left: 230px;
-    color: #ffffff;
-    font-size: 33px;
+    top: 235px;
+    left: 315px;
+    color: #000000;
+    font-size: 1.65em;
     font-weight: bold;
-    text-shadow: 2px 2px rgb(47, 47, 47);
-    background-color: #164b1e6b
+    text-shadow: 1px 1px grey;
 }
 
 /* ---------- Clients ------------  */
@@ -179,17 +191,16 @@ th, td {
 }
 
 tr:nth-child(even) {
-    background-color: #104418f6;
-    color:rgb(224, 207, 207);
-}
+    background-color: #e9e8e8f1;
+  }
 
-tr:nth-child(odd) {
-    background-color: #fffffeec  ;
-}
-
+  tr:nth-child(odd) {
+    background-color: #f8f6f6ef;
+  }
+  
 .table-header{
-    color: black;
-    /* background-image: url('https://data.whicdn.com/images/134536137/original.gif'); */
+    color: black;;
+    background-image: url('https://data.whicdn.com/images/134536137/original.gif');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -198,14 +209,9 @@ tr:nth-child(odd) {
 }
 
 @keyframes changeColor {
-    0% {color: rgb(139, 13, 13);}
-    50% {color: #fdfca7f6;}
-    100% {color: rgb(139, 13, 13);}
-}
-
-.table-header th{
-    background-color: #f1f1f1f6;
-    
+    0% {color: rgb(10, 7, 7);}
+    50% {color: rgb(253, 243, 243);}
+    100% {color: rgb(12, 10, 10);}
 }
     
 .clients-component{
@@ -218,6 +224,7 @@ tr:nth-child(odd) {
     cursor: pointer;
     color: rgb(240, 226, 226);
 }
+
 
 .search-clients{
     height: 30px;
@@ -310,7 +317,7 @@ select {
     left: 0;
     width: 1279px;
     height: 540px;
-    background-color: rgba(39, 6, 6, 0.835);
+    background-color: rgba(138, 138, 138, 0.835);
     justify-content: center;
     justify-items: center;
 }
@@ -318,11 +325,11 @@ select {
 .details-pop-up{
     height: 320px;
     width: 320px;
-    background-color: rgba(8, 70, 37, 0.945);
+    background-color: #707070;
     border-radius: 8px;
-    border: 2px groove rgb(3, 68, 33);
+    border: 2px groove rgb(41, 41, 41);
     box-shadow: 3px 3px black;
-    color:#d4d3ba;
+    color:#fbfae8;
     padding: 5px;
     margin: 100px 0 ;
     animation: popping 2.5s;
@@ -340,15 +347,16 @@ select {
 .details-pop-up input{
     width:300px;
     margin: 10px 5px;
-    transition: 1s all;
+    transition: 0.5s all;
 }
 
 .update-client-popup-btn, .delete-client-popup-btn, .cancel-client-popup-btn{
     border: 1.5px solid rgb(41, 41, 41);
     box-shadow: 4px 4px rgb(0, 0, 0);
+
 }
 
-.update-client-popup-btn:active, .delete-client-popup-btn:active, .cancel-client-popup-btn:active{
+update-client-popup-btn:active, .delete-client-popup-btn:active, .cancel-client-popup-btn:active{
     box-shadow: 1px 1px rgb(0, 0, 0);
 
 }
@@ -374,14 +382,12 @@ select {
     width: 480px;
     height: 270px;
     box-shadow: 3px 3px rgb(54, 54, 54);
-    background-color: #274b2cd5;
+    background-color: rgba(241, 241, 241, 0.945);
     border-radius: 5px;
-    /* color: white; */
 }
 
 .update-client{
-    background-color: #104418f6;;
-    /* color: white; */
+    background-color: white;
 }
 
 .update-title{
@@ -389,8 +395,6 @@ select {
     font-weight: bold;
     text-decoration: underline;
     margin-bottom: 5px;
-    /* color:rgb(224, 207, 207); */
-    color:rgb(255, 215, 215);
 }
 
 .client-input{
@@ -399,12 +403,11 @@ select {
     padding: 0 7px;
     border-bottom: 0.5px solid rgb(202, 202, 202);
     /* background-color: #e9e8e8; */
-    background-color: #104418f6;;
-    color:rgb(224, 207, 207);
+    background-color: rgb(231, 230, 230);
 }
 
 #change-email-type{ 
-     background-color: #104418f6;
+     background-color: rgb(231, 230, 230);
 }
 
 .client-title{
@@ -422,10 +425,6 @@ select {
     background-color: #707070;
 }
 
-.last-name{
-    background-color: #104418f6;
-}
-
 /* ---------- Analytics ------------  */
 
 .analytics{
@@ -433,7 +432,7 @@ select {
     height:93vh;
     display: grid;
     grid-template-rows: 1fr 4.5fr;
-    background-color: #fffffeec ;
+    background-color: #fffffef6;
 }
 
 .badges{
@@ -461,8 +460,7 @@ select {
     grid-area: n;
     font-size: 2em;
     font-weight: bold;
-    color: #104418f6;
-     /* color: #555151; */
+     color: #555151;
 }
 
 .badge-text{

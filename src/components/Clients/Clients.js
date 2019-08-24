@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import Client from './Client'
 import DetailsPopUp from './DetailsPopUp'
-import SuccessPopUp from '../General/SuccessPopUp';
-import ErrorPopUp from '../General/ErrorPopUp'
+import SuccessPopUp from '../PopUps/SuccessPopUp';
+import ErrorPopUp from '../PopUps/ErrorPopUp'
 
 class Clients extends Component {
     constructor(props) {
         super(props)
         this.state = {
             input: "",
-            category: "Categories",
+            category: "Name",
             currentPage: 1,
             clientsPerPage: 13,
             detailsPopUp: {},
@@ -89,7 +89,8 @@ class Clients extends Component {
             case "Name": return clients.filter(c => c.name.toLowerCase().includes(input))
             case "Country": return clients.filter(c => c.country.toLowerCase().includes(input))
             case "Owner": return clients.filter(c => c.owner.toLowerCase().includes(input))
-            case "Email": return input === "" ? clients.filter(c => c.emailType === null) : clients.filter(c => c.emailType ? c.emailType.toLowerCase().includes(input) : null)
+            case "Email Type": return input === "" ? clients.filter(c => c.emailType === null) : clients.filter(c => c.emailType ? c.emailType.toLowerCase().includes(input) : null)
+            case "Email": return clients.filter(c => c.email.toLowerCase().includes(input))
             case "Sold": return clients.filter(c => c.sold ? ("yes").includes(input) : ("no").includes(input))
             default: return clients
         }
@@ -107,7 +108,7 @@ class Clients extends Component {
             await this.props.updateClientPopUp(data)
             let detailsPopUp = this.state.detailsPopUp
             detailsPopUp.popUpStatus = false
-            this.setState(detailsPopUp)
+            await this.setState(detailsPopUp)
             this.handlePopUp("successPopUp", true)
         } else {
             this.handlePopUp("errorPopUp", true)
@@ -119,6 +120,7 @@ class Clients extends Component {
         let detailsPopUp = this.state.detailsPopUp
         detailsPopUp.popUpStatus = false
         await this.setState(detailsPopUp)
+        this.handlePopUp("successPopUp", true)
     }
 
     cancelUpdate = async () => {
@@ -131,16 +133,14 @@ class Clients extends Component {
     render() {
         let pageNumbers = this.createPageNumbers()
         let { detailsPopUp, errorPopUp, successPopUp} = this.state
-        let categories = ["Name", "Country", "Owner", "Sold", "Email"]
+        let categories = ["Name", "Country","Email", "Owner", "Sold", "Email Type"]
         let titles = ["First Name", "Last Name", "Country", "Email", "Owner", "Sold", "Contact Date", "Email-Type"]
-
         return (
             <div className="clients-component">
 
                 <div className="search-clients">
                     <input type="text" value={this.state.input} onChange={this.insertInput} />
                     <select className="select-css" onChange={this.selectCategory}>
-                        <option value="Categories" style={{ fontWeight: 'bold' }}>Categories</option>
                         {categories.map(c => <option value={c}>{c}</option>)}
                     </select>
                 </div>

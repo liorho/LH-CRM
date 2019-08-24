@@ -8,6 +8,7 @@ class SalesSinceChart extends Component {
 
     render() {
         let data = this.props.data
+        let color = this.props.colorDesign ? "#104418f6" : "#555151"
         return (
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart
@@ -20,7 +21,7 @@ class SalesSinceChart extends Component {
                     <XAxis dataKey="val" tick={{ fill: 'black', fontSize: "10px" }} />
                     <YAxis tick={{ fill: 'black', fontSize: "10px" }}  />
                     <Tooltip />
-                    <Line type="monotone" dataKey="sales" stroke="#104418f6" activeDot={{ r: 8 }} dot={false}/>
+                    <Line type="monotone" dataKey="sales" stroke={color} activeDot={{ r: 8 }} dot={false}/>
                 </LineChart>
              </ResponsiveContainer>
         )

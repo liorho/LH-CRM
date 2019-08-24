@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import UpdateData from './UpdateData'
 import ClientInput from './ClientInput'
 import NewClient from './NewClient'
-import ErrorPopUp from '../General/ErrorPopUp'
-import SuccessPopUp from '../General/SuccessPopUp'
+import ErrorPopUp from '../PopUps/ErrorPopUp'
+import SuccessPopUp from '../PopUps/SuccessPopUp'
 
 class Actions extends Component {
     constructor() {

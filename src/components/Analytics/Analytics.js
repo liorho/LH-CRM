@@ -282,7 +282,6 @@ class Analytics extends Component {
     }
 
     employeesSalesByCountryCharts = async (country) => {
-        console.log(country)
         // subArr - support array with values by parameter. each value appear as the number of the sales
         // mainArr - array of objects, each object contain value (depend on the parameter) and amount of sales
         let subArr = []
@@ -336,11 +335,12 @@ class Analytics extends Component {
     // --------- Render --------
     render() {
         const { badges, topEmployees, params, salesByParams, startDate, last30DaysOfSaleArr, employeesSalesByCountry } = this.state
+        const colorDesign = this.props.colorDesign
         return (
             <div className="analytics">
 
                 <div className="badges">
-                    {badges.map(b => <Badge badge={b} />)}
+                    {badges.map(b => <Badge colorDesign={colorDesign} badge={b} />)}
                 </div>
 
 
@@ -348,7 +348,7 @@ class Analytics extends Component {
 
                     <div className="top-employee-chart">
                         <div>Top Employees</div>
-                        <TopEmployeesChart data={topEmployees} />
+                        <TopEmployeesChart data={topEmployees} colorDesign={colorDesign} />
                     </div >
 
                     <div className="sales-by-param-chart">
@@ -356,12 +356,12 @@ class Analytics extends Component {
                         <select className="select-css" onChange={this.selectParam}>
                             {params.map(p => <option value={p}>{p}</option>)}
                         </select>
-                        <SalesByParamsChart data={salesByParams} />
+                        <SalesByParamsChart data={salesByParams} colorDesign={colorDesign}/>
                     </div>
 
                     <div className="sales-since-chart">
                         <div>{startDate}</div>
-                        <SalesSinceChart data={last30DaysOfSaleArr} />
+                        <SalesSinceChart data={last30DaysOfSaleArr} colorDesign={colorDesign} />
                     </div >
 
                     <div className="employees-sales-by-country-chart">
@@ -371,7 +371,7 @@ class Analytics extends Component {
                                 {this.renderCountries().map(o => <option>{o}</option>)}
                             </select>
                         </div>
-                        <EmployeesSalesByCountryChart data={employeesSalesByCountry} />
+                        <EmployeesSalesByCountryChart data={employeesSalesByCountry} colorDesign={colorDesign}/>
                     </div >
 
                 </div >

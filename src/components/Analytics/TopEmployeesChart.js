@@ -9,7 +9,7 @@ class TopEmployeesChart extends Component {
     render() {
 
         const { data } = this.props
-
+        let color = this.props.colorDesign ? "#104418f6" : "#555151"
         return (
             <ResponsiveContainer width="100%" height="100%">
                 <BarChart
@@ -24,7 +24,7 @@ class TopEmployeesChart extends Component {
                     </XAxis>
                     <YAxis type={'category'} dataKey="val" tick={{ fill: 'black', fontSize: "10px" }} />
                     <Tooltip />
-                    <Bar dataKey="sales" fill="#104418f6" width={10} />
+                    <Bar dataKey="sales" fill={color} width={10} />
                 </BarChart>
             </ResponsiveContainer> 
         )

@@ -11,6 +11,5 @@ const clientSchema = new Schema({
     country: String
 })
 
-
 const Client = mongoose.model('client', clientSchema) 
 module.exports = Client

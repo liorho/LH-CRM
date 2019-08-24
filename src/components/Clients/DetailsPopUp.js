@@ -52,7 +52,7 @@ class DetailsPopUp extends Component {
                         </div>
                     </div>
                     <div className="update-pop-up-btn">
-                        <input className="update-client-popup-btn" type="button" value="Update" onClick={this.updateClientPopUp} />
+                        <input className="update-client-popup-btn" type="button" value="Update Client" onClick={this.updateClientPopUp} />
                         <input className="delete-client-popup-btn" type="button" value="Delete Client" onClick={this.deleteClient} />
                         <input className="cancel-client-popup-btn" type="button" value="Cancel" onClick={this.cancelUpdate} />
                     </div>

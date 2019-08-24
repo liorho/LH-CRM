@@ -8,8 +8,8 @@ class SalesByParamsChart extends Component {
 
     render() {
         let data = this.props.data
-        let color = ["#104418f6", "#0e2512f6", "#1b331ff6;", "#37663ff6;", "#086418f6", "#078f1ef6", "#09721af6"]
 
+        let color = this.props.colorDesign ? "#104418f6" : "#555151"
 
         return (
             <ResponsiveContainer width="100%" height="100%">
@@ -23,7 +23,7 @@ class SalesByParamsChart extends Component {
                     <XAxis dataKey="val" tick={{ fill: 'black', fontSize: "10px" }} interval={0}/>
                     <YAxis tick={{ fill: 'black', fontSize: "20px" }}  />
                     <Tooltip />
-                    <Bar dataKey="sales" fill="#104418f6" />
+                    <Bar dataKey="sales" fill={color} />
                 </BarChart>
              </ResponsiveContainer>
         )
