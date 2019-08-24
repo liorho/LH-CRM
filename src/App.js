@@ -17,11 +17,11 @@ class App extends Component {
     this.state = {
       clients: [],
       colorDesign: true,
-      currentPath:window.location.pathname
+      currentPath: window.location.pathname
     }
 
     window.onbeforeunload = function(e) {
-      this.setState({currentPath:window.location.pathname})
+      this.setState({currentPath: window.location.pathname})
    }
 
   }
@@ -30,7 +30,7 @@ class App extends Component {
     await this.getClients()
   }
 
-  // --------- Color Design ---------
+  // --------- Color Control ---------
   changeDesign = async () => {
     await this.setState({ colorDesign: !this.state.colorDesign })
     if (this.state.colorDesign) {
@@ -73,9 +73,9 @@ class App extends Component {
   // --- Upper Case Function -----
   upperCase = (input) => {
     return input
-      .split(" ")
-      .map(i => i.charAt(0).toUpperCase() + i.slice(1))
-      .join(" ")
+               .split(" ")
+               .map(i => i.charAt(0).toUpperCase() + i.slice(1))
+               .join(" ")
   }
 
   // ---------- Main Functions -------
@@ -122,13 +122,14 @@ class App extends Component {
   // ----- Button ------
   buttonSelected = selectedButton => (e) => {
     this.setState({ selectedButton })
-    // this.render()
   }
 
   // --------- Render --------
   render() {
+    
     //initialize client-data for the first run:
     // data.forEach(client => this.addClient(client))
+
     let pathname = window.location.pathname
     return (
       <Router>

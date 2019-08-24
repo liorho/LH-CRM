@@ -23,7 +23,7 @@ class UpdateData extends Component {
         let value = event.target.value
         await this.setState({ [key]: value })
     }
-    
+
     // -------- Main Function -------
     updateClient = async (event) => {
         let value = event.target.value
@@ -84,7 +84,9 @@ class UpdateData extends Component {
                 </tr>
 
                 <tr className="change-sold">
-                    <th>{sold ? "Sale was declared" : "Click to declare as Sold"}</th>
+                    <th>
+                        {sold ? "Sale was declared" : "Click to declare as Sold"}
+                    </th>
                     <th>
                         {sold ? null : <input type="button" value="Sold" onClick={this.updateClient} />}
                     </th>

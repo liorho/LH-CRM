@@ -20,8 +20,7 @@ class TopEmployeesChart extends Component {
                     }}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis type={'number'} tick={{ fill: 'black', fontSize: "10px" }} >
-                    </XAxis>
+                    <XAxis type={'number'} tick={{ fill: 'black', fontSize: "10px" }} />
                     <YAxis type={'category'} dataKey="val" tick={{ fill: 'black', fontSize: "10px" }} />
                     <Tooltip />
                     <Bar dataKey="sales" fill={color} width={10} />
