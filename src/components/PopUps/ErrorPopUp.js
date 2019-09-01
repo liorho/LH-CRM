@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 
 class ErrorPopUp extends Component {
-    constructor() {
-        super()
-
-    }
-
+    
     render() {
         return (
             <div className="error-pop-up">

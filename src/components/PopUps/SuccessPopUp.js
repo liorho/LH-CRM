@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
 
 class SuccessPopUp extends Component {
-    constructor() {
-        super()
-
-    }
 
     render() {
         return (

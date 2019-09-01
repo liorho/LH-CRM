@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 class SalesByParamsChart extends Component {
-    constructor() {
-        super()
-    }
 
     render() {
         let data = this.props.data

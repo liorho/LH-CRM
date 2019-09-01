@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 class TopEmployeesChart extends Component {
-    constructor(props) {
-        super(props)
-    }
-
+    
     render() {
 
         const { data } = this.props

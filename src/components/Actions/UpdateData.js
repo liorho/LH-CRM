@@ -44,7 +44,10 @@ class UpdateData extends Component {
                     updateClient({ key: "sold", value: true })
                     setTimeout(async () => { await this.setState({ sold: false }) }, 2000)
                     break;
-                } else updateClient({})
+                } else {
+                    updateClient({})
+                    break;
+                }
             default: break
         }
     }

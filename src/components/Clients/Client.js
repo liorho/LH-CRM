@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import Moment from 'react-moment';
 
 class Client extends Component {
-    constructor(props) {
-        super(props)
-    }
 
     detailsPopUp = async () => {
         let client = {...this.props.client}

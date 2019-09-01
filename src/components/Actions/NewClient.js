@@ -20,7 +20,7 @@ class NewClient extends Component {
     }
 
     addClient = () => {
-        let date = new Date
+        let date = new Date()
         this.props.addClient({
             name: this.state.firstName + " " + this.state.lastName,
             email: this.state.email,

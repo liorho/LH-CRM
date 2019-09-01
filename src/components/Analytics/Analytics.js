@@ -57,7 +57,7 @@ class Analytics extends Component {
         await this.findTopEmployees()
         await this.salesByParamsCharts("Country")
         await this.salesSinceCharts(30)
-        if (this.state.chosenCountry == "") {
+        if (this.state.chosenCountry === "") {
             await this.employeesSalesByCountryCharts(this.renderCountries()[0])
         } else {
             await this.employeesSalesByCountryCharts(this.state.chosenCountry)
@@ -79,8 +79,8 @@ class Analytics extends Component {
         let setArr = new Set(subArr)
         let results = []
         setArr.forEach(s => results.push({ val: s, sales: subArr.filter(sub => sub === s).length }))
-        if (param == "emailType") results.splice(results.length - 1, 1)
-        if (param == "firstContact") {
+        if (param === "emailType") results.splice(results.length - 1, 1)
+        if (param === "firstContact") {
             results.forEach(m => m.val = this.state.months[parseInt(m.val) - 1])
             for (let i = 0; i < 3; i++) {
                 results[12] = results[1]
@@ -100,7 +100,7 @@ class Analytics extends Component {
         let thisYear = thisMoment.getFullYear()
         firstContactArr.forEach(d => {
             let date = moment(d, 'YYYY/MM/DD')
-            if (date.format('M') == thisMonth && date.format('YYYY') == thisYear) { count++ }
+            if (date.format('M') === thisMonth && date.format('YYYY') === thisYear) { count++ }
         })
         thisMonth = this.state.months[thisMonth - 1];
         let badges = this.state.badges
@@ -173,7 +173,7 @@ class Analytics extends Component {
         let salesByDaysArr = []
         let count = 1
         for (let i = 1; i < subSalesByDaysArr.length; i++) {
-            if (moment(subSalesByDaysArr[i], 'YYYY/MM/DD').format('D') == moment(subSalesByDaysArr[i - 1], 'YYYY/MM/DD').format('D')) {
+            if (moment(subSalesByDaysArr[i], 'YYYY/MM/DD').format('D') === moment(subSalesByDaysArr[i - 1], 'YYYY/MM/DD').format('D')) {
                 count++
             } else {
                 salesByDaysArr.push({ val: subSalesByDaysArr[i - 1], sales: count })
@@ -200,12 +200,12 @@ class Analytics extends Component {
         for (let i = 0; i < listOfLast30Days.length; i++) {
             let count = 0
             for (let j = 0; j < salesByDaysArr.length; j++) {
-                if (listOfLast30Days[i] == salesByDaysArr[j].val) {
+                if (listOfLast30Days[i] === salesByDaysArr[j].val) {
                     last30DaysOfSaleArr.push(salesByDaysArr[j])
                     count++
                 }
             }
-            if (count == 0) {
+            if (count === 0) {
                 last30DaysOfSaleArr.push({ val: listOfLast30Days[i], sales: 0 })
             }
         }
@@ -216,7 +216,7 @@ class Analytics extends Component {
 
     employeesSalesByCountryCharts = async (country) => {
         let subArr = []
-        this.state.clients.forEach(c => { if (c.sold && c.country == country) { subArr.push(c.owner) } })
+        this.state.clients.forEach(c => { if (c.sold && c.country === country) { subArr.push(c.owner) } })
         subArr.sort()
         let setArr = new Set (subArr)
         let mainArr = []

@@ -37,9 +37,20 @@ input, button{
     left: 94vw;
     font-size: 1.9vw;
     font-family: 'Oswald', sans-serif;
-    color:rgb(231, 228, 228);
     text-shadow: 1px 1px rgb(47, 47, 47);
+    animation: changeColorBtn 4s infinite;
     z-index: 2;
+}
+
+@keyframes changeColorBtn{
+    0% {color: rgb(231, 228, 228);
+        text-shadow: 1px 1px rgb(47, 47, 47); }
+    45% {color:rgb(118, 184, 127);
+     }
+     55% {color:rgb(118, 184, 127);
+     }
+    100% {color: rgb(231, 228, 228);
+        text-shadow: 1px 1px rgb(47, 47, 47); }
 }
 
 .color-btn:hover{
@@ -137,12 +148,22 @@ input, button{
     text-shadow: 1px 1px rgb(47, 47, 47);
 }
 
+.H1{
+    position: absolute;
+    top: 87vh;
+    left: 0.4vw;
+    font-size: 2vw;
+    font-family: 'Oswald', sans-serif;
+    color:rgb(231, 228, 228);
+    text-shadow: 1px 1px rgb(47, 47, 47);
+}
+
 /* ---------- Home ------------  */
 .home-container{
     margin-top: 7vh;
 }
 
-.LH{
+.L{
     position: absolute;
     top: 84vh;
     font-size: 6.7vh;
@@ -150,6 +171,33 @@ input, button{
     text-shadow: 2px 2px rgb(47, 47, 47);
     color:rgb(231, 228, 228);
     left: 0.4vw;
+}
+.H{
+    position: absolute;
+    top: 84vh;
+    font-size: 6.7vh;
+    font-family: 'Oswald', sans-serif;
+    text-shadow: 2px 2px rgb(47, 47, 47);
+    color:rgb(231, 228, 228);
+    left: 1.4vw;
+    animation: h-logo 7s linear infinite; 
+}
+
+@keyframes h-logo {
+    0%{left:1.4vw;
+        transform: rotate(0deg);}
+    30%{left:1.4vw;
+        transform: rotate(0deg);}
+    40%{left:4vw;
+        transform: rotate(0deg);}
+    50%{left:4vw;
+        transform: rotate(0deg);}
+    70%{left:4vw;
+        transform: rotate(360deg);}
+    80%{left:4vw;
+        transform: rotate(360deg);}
+    100%{left:1.4vw;
+        transform: rotate(360deg);}
 }
 
 .sit-back{

@@ -16,7 +16,7 @@ class App extends Component {
     super()
     this.state = {
       clients: [],
-      colorDesign: true,
+      colorDesign: false,
       currentPath: window.location.pathname
     }
 

@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 class SalesSinceChart extends Component {
-    constructor(props) {
-        super(props)
-    }
 
     render() {
         let data = this.props.data
