@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 class TopEmployeesChart extends Component {
-    
+
     render() {
 
         const { data } = this.props
-        let color = this.props.colorDesign ? "#104418f6" : "#555151"
+        const color = this.props.isColor ? "#104418f6" : "#555151"
         return (
             <ResponsiveContainer width="100%" height="100%">
                 <BarChart
@@ -22,7 +22,7 @@ class TopEmployeesChart extends Component {
                     <Tooltip />
                     <Bar dataKey="sales" fill={color} width={10} />
                 </BarChart>
-            </ResponsiveContainer> 
+            </ResponsiveContainer>
         )
     }
 }

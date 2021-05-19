@@ -5,12 +5,11 @@ class EmployeesSalesByCountryChart extends Component {
 
     render() {
         const data = this.props.data
-
-        let renderLabel = (entry) => {
+        const renderLabel = (entry) => {
             return (entry.val + ": " + entry.sales)
         }
 
-        let color = this.props.colorDesign ? 
+        const color = this.props.isColor ?
                     ["#104418f6", "#0e2512f6", "#1b331ff6;", "#37663ff6;", "#086418f6", "#078f1ef6", "#09721af6", "#005a0ff6"] :
                     ["#555151", "#464444", "#3d3c3c", "#2b2a2a","#524f4f", "#272626", "#222121", "#181717"]
         return (
@@ -25,7 +24,7 @@ class EmployeesSalesByCountryChart extends Component {
                         nameKey="val"
                     >
                         {
-                            data.map((entry, index) => <Cell fill={color[index % color.length]} />)
+                            data.map((_, i) => <Cell key={i} fill={color[i % color.length]} />)
                         }
                     </Pie>
                     <Tooltip />

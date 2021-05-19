@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-
 class SalesByParamsChart extends Component {
 
     render() {
-        let data = this.props.data
-
-        let color = this.props.colorDesign ? "#104418f6" : "#555151"
+        const data = this.props.data
+        const color = this.props.isColor ? "#104418f6" : "#555151"
 
         return (
             <ResponsiveContainer width="100%" height="100%">

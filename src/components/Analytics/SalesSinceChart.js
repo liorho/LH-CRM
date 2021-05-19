@@ -4,8 +4,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 class SalesSinceChart extends Component {
 
     render() {
-        let data = this.props.data
-        let color = this.props.colorDesign ? "#104418f6" : "#555151"
+        const data = this.props.data
+        const color = this.props.isColor ? "#104418f6" : "#555151"
         return (
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart

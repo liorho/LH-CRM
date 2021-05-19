@@ -1,180 +1,155 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-
-import Clients from './components/Clients/Clients'
-import Actions from './components/Actions/Actions'
-import Analytics from './components/Analytics/Analytics'
-import Home from './components/Home/Home'
-
-const axios = require('axios')
-
-// Load First Data
-// const data = require('./data.json')
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import Clients from './components/Clients/Clients';
+import Actions from './components/Actions/Actions';
+import Analytics from './components/Analytics/Analytics';
+import Home from './components/Home/Home';
+import { clientDetailsToUpperCase } from './utils/utils';
+import { API_URL } from './utils/consts';
+import MsgPopUp from './PopUps/MsgPopUp';
+const axios = require('axios');
 
 class App extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       clients: [],
-      colorDesign: false,
-      currentPath: window.location.pathname
-    }
-
-    window.onbeforeunload = function(e) {
-      this.setState({currentPath: window.location.pathname})
-   }
-
+      isColor: false,
+      path: window.location.pathname,
+      msgPopUp: {
+        isPopUp: false,
+        msg: 'success',
+      },
+    };
   }
   // --------- Start ---------
-  componentDidMount = async () => {
-    await this.getClients()
-  }
+  componentDidMount = async () => await this.getClients();
 
   // --------- Color Control ---------
   changeDesign = async () => {
-    await this.setState({ colorDesign: !this.state.colorDesign })
-    if (this.state.colorDesign) {
-      let newCssLink = document.createElement('link')
-      newCssLink.setAttribute("rel", "stylesheet")
-      newCssLink.setAttribute("class", "app-css")
-      newCssLink.setAttribute("href", "App.css")
-      document.getElementsByTagName("head")[0].prepend(newCssLink)
-      let oldCssLink = document.getElementsByClassName("app-css")[1]
+    const createLinkElement = (href) => {
+      const newCssLink = document.createElement('link');
+      newCssLink.setAttribute('rel', 'stylesheet');
+      newCssLink.setAttribute('class', 'app-css');
+      newCssLink.setAttribute('href', href);
+      document.getElementsByTagName('head')[0].prepend(newCssLink);
+      const oldCssLink = document.getElementsByClassName('app-css')[1];
       oldCssLink.parentNode.removeChild(oldCssLink);
+    };
+    createLinkElement(this.state.isColor ? 'App-bw.css' : 'App.css');
+    this.setState({ isColor: !this.state.isColor });
+  };
 
-      let newIconLink = document.createElement('link')
-      newIconLink.setAttribute("class", "app-icon")
-      newIconLink.setAttribute("rel", "icon")
-      newIconLink.setAttribute("href", "./img/icon-color.jpg")
-      document.getElementsByTagName("head")[0].append(newIconLink)
-      let oldIconLink = document.getElementsByClassName("app-icon")[0]
-      oldIconLink.parentNode.removeChild(oldIconLink);
-
-
-    } else {
-      let newCssLink = document.createElement("link")
-      newCssLink.setAttribute("rel", "stylesheet")
-      newCssLink.setAttribute("class", "app-css")
-      newCssLink.setAttribute("href", "App-bw.css")
-      document.getElementsByTagName("head")[0].prepend(newCssLink)
-      let oldCssLink = document.getElementsByClassName("app-css")[1]
-      oldCssLink.parentNode.removeChild(oldCssLink)
-
-      let newIconLink = document.createElement("link")
-      newIconLink.setAttribute("class", "app-icon")
-      newIconLink.setAttribute("rel", "icon")
-      newIconLink.setAttribute("href", "./img/icon-bw.jpg")
-      document.getElementsByTagName("head")[0].append(newIconLink)
-      let oldIconLink = document.getElementsByClassName("app-icon")[0]
-      oldIconLink.parentNode.removeChild(oldIconLink);
-    }
-  }
-
-  // --- Upper Case Function -----
-  upperCase = (input) => {
-    return input
-               .split(" ")
-               .map(i => i.charAt(0).toUpperCase() + i.slice(1))
-               .join(" ")
-  }
-
-  // ---------- Main Functions -------
+  // ---------- CRUD Functions -------
   addClient = async (client) => {
-    client.country = this.upperCase(client.country)
-    client.name = this.upperCase(client.name)
-    client.owner = this.upperCase(client.owner)
-    await axios.post('http://localhost:3001/clients', client)
-    this.getClients()
-  }
+    client = clientDetailsToUpperCase(client);
+    await axios.post(`${API_URL}/clients`, client);
+    this.getClients();
+  };
 
   getClients = async () => {
-    let clients = await axios.get('http://localhost:3001/clients')
-    this.setState({ clients: clients.data })
-  }
+    let clients = await axios.get(`${API_URL}/clients`);
+    this.setState({ clients: clients.data });
+  };
 
-  updateClient = async (data) => {
-    data.value = data.key === "owner" || data.key === "emailType" ? this.upperCase(data.value) : data.value
-    await axios.put('http://localhost:3001/clients', data)
-    this.getClients()
-  }
+  updateClient = async (client) => {
+    client = clientDetailsToUpperCase(client);
+    await axios.put(`${API_URL}/clients`, client);
+    this.getClients();
+  };
 
-  updateClientPopUp = async (data) => {
-    data.country = this.upperCase(data.country)
-    data.name = this.upperCase(data.name)
-    await axios.put(`http://localhost:3001/clientsPopUp`, data)
-    this.getClients()
-  }
+  deleteClient = async (_id) => {
+    await axios.delete(`${API_URL}/clients/${_id}`);
+    this.getClients();
+  };
 
-  deleteClient = async (id) => {
-    await axios.delete(`http://localhost:3001/clients/${id}`)
-    this.getClients()
-  }
+  //--------Error/Success POP-UP -------
 
-  // -------------------------------------
-  // Arrange data for Actions component
-  clientsActions = () => {
-    let clients = this.state.clients
-    let clientsActionsArr = []
-    clients.forEach(c => clientsActionsArr.push({ id: c._id, name: c.name, owner: c.owner }))
-    return clientsActionsArr
-  }
+  handleMsgPopUp = (isPopUp, msg) => {
+    this.setState({ msgPopUp: { isPopUp, msg } });
+    setTimeout(() => {
+      this.setState({ msgPopUp: { isPopUp: !isPopUp, msg } });
+    }, 3000);
+  };
 
-  // ----- Button ------
-  buttonSelected = selectedButton => (e) => {
-    this.setState({ selectedButton })
-  }
+  // ----- Navbar Buttons ------
+  selectLink = (path) => () => {
+    this.setState({ path });
+  };
 
   // --------- Render --------
   render() {
-    
-    //initialize client-data for the first run:
-    // data.forEach(client => this.addClient(client))
-
-    let pathname = window.location.pathname
+    const { path } = this.state;
     return (
       <Router>
-        <div className="app-container" >
+        <div className='app-container'>
 
-          <div className="load-css" style={{ width: "100vh", height: "100vh" }}></div>
-
-          <div className="navbar">
-            <Link to="/">
-              <input type="button" value="Home"
-                className={pathname === "/" ? 'selected home-btn' : 'nav-btn home-btn'}
-                onClick={this.buttonSelected("Home")} />
+          {/* Links */}
+          <div className='navbar'>
+            <Link to='/'>
+              <input type='button' value='Home' className={path === '/' ? 'selected home-btn' : 'nav-btn home-btn'} onClick={this.selectLink('/')} />
             </Link>
-            <Link to="/analytics">
-              <input type="button" value="Analytics"
-                className={pathname === "/analytics" ? 'selected' : 'nav-btn'}
-                onClick={this.buttonSelected("Analytics")} />
+            <Link to='/analytics'>
+              <input
+                type='button'
+                value='Analytics'
+                className={path === '/analytics' ? 'selected' : 'nav-btn'}
+                onClick={this.selectLink('/analytics')}
+              />
             </Link>
-            <Link to="/actions">
-              <input type="button" value="Actions"
-                className={pathname === "/actions" ? 'selected' : 'nav-btn'}
-                onClick={this.buttonSelected("Actions")} />
+            <Link to='/actions'>
+              <input
+                type='button'
+                value='Actions'
+                className='selected'
+                className={path === '/actions' ? 'selected' : 'nav-btn'}
+                onClick={this.selectLink('/actions')}
+              />
             </Link>
-            <Link to="/clients">
-              <input type="button" value="Clients"
-                className={pathname === "/clients" ? 'selected' : 'nav-btn'}
-                onClick={this.buttonSelected("Clients")} />
+            <Link to='/clients'>
+              <input type='button' value='Clients' className={path === '/clients' ? 'selected' : 'nav-btn'} onClick={this.selectLink('/clients')} />
             </Link>
           </div>
 
-          {this.state.colorDesign ?
-            <div className="color-btn" onClick={this.changeDesign}>B&W</div> :
-            <div className="color-btn" onClick={this.changeDesign}>Color</div>}
+          {/* Color Control */}
+          <div className='color-btn' onClick={this.changeDesign}>
+            {this.state.isColor ? 'B&W' : 'Color'}
+          </div>
 
+          {/* Error/Success POP-UP */}
+          {this.state.msgPopUp.isPopUp ? <MsgPopUp msg={this.state.msgPopUp.msg} /> : null}
 
-          <Route exact path="/" component={Home} />
-          <Route exact path="/clients" render={() => <Clients clients={this.state.clients} updateClientPopUp={this.updateClientPopUp} deleteClient={this.deleteClient} />} />
-          <Route exact path="/actions" render={() => <Actions clients={this.clientsActions()} updateClient={this.updateClient} addClient={this.addClient} />} />
-          <Route exact path="/analytics" render={() => <Analytics colorDesign={this.state.colorDesign} />} />
-
+          {/* Routes */}
+          <Route exact path='/' component={Home} />
+          <Route
+            exact
+            path='/clients'
+            render={() => (
+              <Clients
+                clients={this.state.clients}
+                handleMsgPopUp={this.handleMsgPopUp}
+                updateClient={this.updateClient}
+                deleteClient={this.deleteClient}
+              />
+            )}
+          />
+          <Route
+            exact
+            path='/actions'
+            render={() => (
+              <Actions
+                clients={this.state.clients}
+                handleMsgPopUp={this.handleMsgPopUp}
+                updateClient={this.updateClient}
+                addClient={this.addClient}
+              />
+            )}
+          />
+          <Route exact path='/analytics' render={() => <Analytics isColor={this.state.isColor} clients={this.state.clients} />} />
         </div>
       </Router>
     );
   }
 }
-
 
 export default App;
