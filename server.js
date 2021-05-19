@@ -1,14 +1,14 @@
 const path = require('path');
 const express = require('express');
 const app = express();
-const api = require('./routes/api');
+const api = require('./server/routes/api');
 const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://liorho:hoshea1234@cluster-1.fbmhg.mongodb.net/lh-crm?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useFindAndModify: false,
 });
 
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, '..','build')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
 // app.use(function (req, res, next) {
